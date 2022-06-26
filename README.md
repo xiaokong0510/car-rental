@@ -1,5 +1,7 @@
 # Car-rental Solution design
 
+Running at: 1.15.245.16:10000
+
 ## API
 
 ### car-info
