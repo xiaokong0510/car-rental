@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xiao.carrental.mapper.CarMapper">
+
+    <update id="decreaseStock">
+        update car
+        set in_stock = in_stock - #{rentNum}
+        where in_stock - #{rentNum} >= 0
+          and id = #{carId}
+    </update>
+    <update id="increaseStock">
+        update car
+        set in_stock = in_stock + #{returnNum}
+        where id = #{carId}
+    </update>
+</mapper>
