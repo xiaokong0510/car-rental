@@ -1,7 +1,6 @@
 package com.xiao.carrental.filter;
 
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.util.AntPathMatcher;
 
 import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
@@ -17,7 +16,7 @@ import java.util.Objects;
  * @description
  */
 @Slf4j
-@WebFilter(filterName = "LoginCheckFilter", urlPatterns = "/*")
+@WebFilter(filterName = "LoginFilter", urlPatterns = "/*")
 public class LoginFilter implements Filter {
 
     private static final String[] WHITE_URLS = {"/login.html", "/user/login"};
@@ -37,7 +36,7 @@ public class LoginFilter implements Filter {
             filterChain.doFilter(request, response);
         } else {
             Object user = request.getSession().getAttribute("user");
-            if (Objects.isNull(user)) {
+            if (Objects.nonNull(user)) {
                 filterChain.doFilter(request, response);
             } else {
                 response.sendRedirect("/login.html");
