@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>租车信息</title>
+    <script src="js/resources.js"></script>
+
+</head>
+<body>
+<div id="app">
+    <!-- 头部-->
+    <script src="js/header.js"></script>
+
+    <!-- 主体 -->
+    <div style="display: flex; margin: 5px;">
+        <!-- 菜单栏-->
+        <script src="js/nav.js"></script>
+
+        <!-- 数据展示区域 -->
+        <div style="flex: 1; margin-left: 10px; ">
+            <table class="table table-striped table-hover caption-top">
+                <caption>可用车信息表</caption>
+                <thead>
+                <tr>
+                    <th>Car ID</th>
+                    <th>Model</th>
+                    <th>Stock</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr v-for="item in tableData" :key="item.id">
+                    <td>{{ item.carId }}</td>
+                    <td>{{ item.carModel }}</td>
+                    <td>{{ item.inStock }}</td>
+                    <td>
+                        <button class="btn btn-link btn-sm" @click="handleEdit(item)">租车</button>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</div>
+
+
+<script>
+
+    new Vue({
+        el: '#app',
+        data() {
+            return {
+                tableData: [],
+                form: {}
+            }
+        },
+        created() {
+            this.load()
+        },
+        methods: {
+            load() {
+                fetch(`/v1/car/car-info`).then(res => res.json()).then(res => {
+                    this.tableData = res.data
+                })
+            }
+        }
+    })
+</script>
+</body>
+</html>
