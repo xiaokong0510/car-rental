@@ -2,6 +2,14 @@
 
 Running at: [1.15.245.16:10000](1.15.245.16:10000)
 
+## WEB
+
+A working customer facing web client online was provided to quickly test the service
+
+![image-20220709124938242](http://image.kongxiao.top/20220709124947.png)
+
+![image-20220709124951646](http://image.kongxiao.top/20220709124953.png)
+
 ## API
 
 ### car-info
