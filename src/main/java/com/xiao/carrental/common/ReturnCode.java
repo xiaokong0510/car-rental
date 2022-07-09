@@ -18,7 +18,8 @@ public enum ReturnCode {
     STOCK_IS_INSUFFICIENT(40003, "the stock of this car is insufficient"),
     RENT_INFO_NOT_EXISTS(40004, "this rent not exists"),
     CAR_HAS_BEEN_RETURN(40005, "car has been return"),
-    UNKNOWN_ERROR(500, "unknown error");
+    UNKNOWN_ERROR(500, "unknown error"),
+    NOT_LOGIN(404,"not login");
 
     private int code;
     private String msg;

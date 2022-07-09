@@ -1,5 +1,7 @@
 package com.xiao.carrental.filter;
 
+import com.xiao.carrental.entity.User;
+import com.xiao.carrental.interceptor.IdentityInfo;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.servlet.*;
@@ -35,8 +37,11 @@ public class LoginFilter implements Filter {
         if (Arrays.asList(WHITE_URLS).contains(servletPath) || endWith(servletPath)) {
             filterChain.doFilter(request, response);
         } else {
-            Object user = request.getSession().getAttribute("user");
+            User user = (User) request.getSession().getAttribute("user");
             if (Objects.nonNull(user)) {
+                IdentityInfo identityInfo = new IdentityInfo();
+                identityInfo.setUserName(user.getUsername());
+                request.setAttribute("user", identityInfo);
                 filterChain.doFilter(request, response);
             } else {
                 response.sendRedirect("/login.html");

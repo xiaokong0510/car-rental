@@ -13,9 +13,6 @@ import javax.validation.constraints.NotNull;
 @Data
 public class ReturnCarReqDTO {
 
-    @NotNull(message = "userName can not be null")
-    private String userName;
-
     @NotNull(message = "rentId can not be null")
-    private Integer rentId;
+    private Integer rentInfoId;
 }

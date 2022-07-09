@@ -1,10 +1,12 @@
 package com.xiao.carrental.controller;
 
+import com.xiao.carrental.annotation.LoginUser;
 import com.xiao.carrental.dto.request.RentCarReqDTO;
 import com.xiao.carrental.dto.request.ReturnCarReqDTO;
 import com.xiao.carrental.dto.response.*;
 import com.xiao.carrental.entity.Car;
 import com.xiao.carrental.entity.RentInfo;
+import com.xiao.carrental.interceptor.IdentityInfo;
 import com.xiao.carrental.service.CarService;
 import com.xiao.carrental.service.RentInfoService;
 import lombok.extern.slf4j.Slf4j;
@@ -53,12 +55,12 @@ public class CarController {
     /**
      * 查询用户的租车信息
      *
-     * @param userName
+     * @param identityInfo
      * @return
      */
     @GetMapping("/rent-info")
-    public CommonResult<List<RentInfoRespDTO>> getRentInfo(@RequestParam("userName") String userName) {
-        List<RentInfo> rentInfos = rentInfoService.findByUserName(userName);
+    public CommonResult<List<RentInfoRespDTO>> getRentInfo(@LoginUser IdentityInfo identityInfo) {
+        List<RentInfo> rentInfos = rentInfoService.findByUserName(identityInfo.getUserName());
         List<RentInfoRespDTO> rentInfoRespDTOList = new ArrayList<>();
         rentInfos.forEach(x -> {
             RentInfoRespDTO rentInfoRespDTO = new RentInfoRespDTO();
@@ -76,11 +78,13 @@ public class CarController {
      * @return
      */
     @PostMapping("/rent")
-    public CommonResult<RentCarRespDTO> rentCar(@RequestBody @Valid RentCarReqDTO rentCarReq) {
+    public CommonResult<RentCarRespDTO> rentCar(@RequestBody @Valid RentCarReqDTO rentCarReq,
+                                                @LoginUser IdentityInfo identityInfo) {
         RentInfo rentInfo = new RentInfo();
         BeanUtils.copyProperties(rentCarReq, rentInfo);
         rentInfo.setNum(rentCarReq.getRentNum());
         rentInfo.setEndTime(rentCarReq.getStartTime().plusDays(rentCarReq.getRentDay()));
+        rentInfo.setUserName(identityInfo.getUserName());
         RentInfo result = carService.rentCar(rentInfo);
         RentCarRespDTO rentCarResp = new RentCarRespDTO();
         BeanUtils.copyProperties(result, rentCarResp);
@@ -89,8 +93,9 @@ public class CarController {
     }
 
     @PostMapping("/return")
-    public CommonResult<RentInfoRespDTO> returnCar(@RequestBody @Valid ReturnCarReqDTO rentCarReq) {
-        RentInfo rentInfo = carService.returnCar(rentCarReq.getRentId(), rentCarReq.getUserName());
+    public CommonResult<RentInfoRespDTO> returnCar(@RequestBody @Valid ReturnCarReqDTO rentCarReq,
+                                                   @LoginUser IdentityInfo identityInfo) {
+        RentInfo rentInfo = carService.returnCar(rentCarReq.getRentInfoId(), identityInfo.getUserName());
         RentInfoRespDTO rentInfoResp = new RentInfoRespDTO();
         BeanUtils.copyProperties(rentInfo, rentInfoResp);
         return CommonResult.success(rentInfoResp);

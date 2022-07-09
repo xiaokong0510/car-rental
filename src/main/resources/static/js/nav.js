@@ -26,7 +26,10 @@ document.write(`
       </ul>
       <div class="subNav currentDt">租车</div>
       <ul class="navContent" style="display:block">
-          <li><a href="/info.html">租车信息</a></li>
+          <li><a href="/info.html">车辆信息</a></li>
+      </ul>
+            <ul class="navContent" style="display:block">
+          <li><a href="/rent-info.html">订单信息</a></li>
       </ul>
   </div>
 </div>

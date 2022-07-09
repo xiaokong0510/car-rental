@@ -16,9 +16,6 @@ import java.time.LocalDate;
 @NoArgsConstructor
 public class RentCarReqDTO {
 
-    @NotNull(message = "userName can not be null")
-    private String userName;
-
     @NotNull(message = "carId can not be null")
     private Integer carId;
 
